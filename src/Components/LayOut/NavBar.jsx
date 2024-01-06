@@ -1,5 +1,6 @@
 import { IoSearch } from "react-icons/io5";
 import { LuUser2 } from "react-icons/lu";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
@@ -66,7 +67,7 @@ const NavBar = () => {
               </li>
             </ul>
           </div>
-          <h3 className="text-3xl font-bold">pti.</h3>
+          <Link to='/' className="text-3xl font-bold">pti.</Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <div className="relative flex">

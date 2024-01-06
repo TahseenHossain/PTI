@@ -2,7 +2,7 @@ const Popular = ({ popular }) => {
   const { Name, ImageUrl } = popular;
 
   return (
-    <div className="card w-80 bg-transparent mb-4 mx-auto">
+    <div className="card w-80 bg-transparent mb-10 mx-auto">
       <figure>
         <img src={ImageUrl} alt={Name} className="h-64 w-60 rounded-xl" />
       </figure>

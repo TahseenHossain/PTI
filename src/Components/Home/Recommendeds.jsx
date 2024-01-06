@@ -2,39 +2,61 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/navigation";  
+import "swiper/css/navigation";
 import { useEffect, useState } from "react";
 import Popular from "./Popular";
+import { Link, useLocation } from "react-router-dom";
 
 const Recommended = () => {
   const [recommendeds, setRecommendeds] = useState([]);
   const [swiper, setSwiper] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
-    fetch("http://www.api.technicaltest.quadtheoryltd.com/api/Item?page=1&pageSize=10")
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://www.api.technicaltest.quadtheoryltd.com/api/Item?page=1&pageSize=10"
+        );
+        const data = await response.json();
         const recommendedItems = data.Items.filter(
           (item) => item.IsRecommended === true
         );
-        setRecommendeds(recommendedItems);
-      });
-  }, []);
+
+        setRecommendeds((prevRecommendeds) => {
+            if (location.state && location.state.newItem && location.state.updateComponent === 'Recommended') {
+            return [
+              ...prevRecommendeds,
+              location.state.newItem,
+              ...recommendedItems,
+            ];
+          }
+          return [...prevRecommendeds, ...recommendedItems];
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [location.state]);
 
   return (
     <div className="my-10">
       <div className="flex justify-between">
         <h3 className="text-2xl font-bold">Recommended</h3>
         <div className="flex items-center space-x-2">
-          <h3 className="text-2xl font-bold text-[#FFAA33]">AddMore</h3>
+          <Link to="/addRecommended" className="text-2xl font-bold text-[#FFAA33]">
+            AddMore
+          </Link>
           <button
-            onClick={() => swiper && swiper.slidePrev()}  
+            onClick={() => swiper && swiper.slidePrev()}
             className="btn btn-circle"
           >
             ❮
           </button>
           <button
-            onClick={() => swiper && swiper.slideNext()}  
+            onClick={() => swiper && swiper.slideNext()}
             className="btn btn-circle"
           >
             ❯
@@ -52,7 +74,7 @@ const Recommended = () => {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         }}
-        modules={[Pagination, Navigation]} 
+        modules={[Pagination, Navigation]}
         className="mySwiper"
         breakpoints={{
           640: {
@@ -66,7 +88,7 @@ const Recommended = () => {
           },
         }}
         onSwiper={(swiper) => {
-          setSwiper(swiper);  
+          setSwiper(swiper);
         }}
       >
         {recommendeds.map((popular) => (

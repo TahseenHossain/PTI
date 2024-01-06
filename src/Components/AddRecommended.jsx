@@ -32,6 +32,7 @@ const AddRecommended = () => {
               <input
                 name="Name"
                 type="text"
+                pattern="[A-Za-z ]+"
                 placeholder="Enter Item Name"
                 className="input input-bordered w-full"
                 required
@@ -45,7 +46,7 @@ const AddRecommended = () => {
             <label className="input-group">
               <input
                 name="Price"
-                type="text"
+                type="number"
                 placeholder="Enter Price"
                 className="input input-bordered  w-full"
                 required
@@ -63,7 +64,7 @@ const AddRecommended = () => {
             <label className="input-group">
               <input
                 name="ImageUrl"
-                type="text"
+                type="url"
                 placeholder="Enter ImageUrl"
                 className="input input-bordered w-full"
                 required
